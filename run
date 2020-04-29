@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# functions
+usage() {
+  echo "Usage: ./run [check|install]"
+  exit 1
+}
+
+check() {
+  echo "dry-run"
+}
+
+install() {
+  echo "install"
+}
+
+# main
+if [ "$#" -ne 1 ]; then
+  usage
+  exit 1
+fi
+
+case $1 in
+  "check" )
+    ansible-playbook -i localhost, -c local install.yaml --check --ask-become-pass;;
+  "install" )
+    install;;
+  *)
+    usage;;
+esac
