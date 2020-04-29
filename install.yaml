@@ -15,20 +15,11 @@
 
     - name: enable copr repository
       become: true
-      yum_repository:
-        name: "copr:copr.fedorainfracloud.org:{{ item[0] }}:{{ item[1] }}"
-        file: "_copr:copr.fedorainfracloud.org:{{ item[0] }}:{{ item[1] }}"
-        description: "{{ item[2] }}"
-        baseurl: "{{ copr_url }}/results/{{ item[0] }}/{{ item[1] }}/fedora-$releasever-$basearch/"
-        gpgkey: "{{ copr_url }}/results/{{ item[0] }}/{{ item[1] }}/pubkey.gpg"
-        gpgcheck: yes
-        enabled: yes
-        skip_if_unavailable: yes
-      vars:
-        copr_url: https://download.copr.fedorainfracloud.org
+      command:
+        cmd: dnf copr enable -y {{ item }}
       loop:
-        - [nforro, i3-gaps, i3-gaps]
-        - [odilhao, i3lock-color, i3lock-color]
+        - nforro:i3-gaps
+        - odilhao:i3lock-color
 
     - name: install packages
       become: true
