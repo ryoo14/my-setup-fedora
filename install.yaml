@@ -10,21 +10,28 @@
 
     - name: enable other repository
       become: true
-      dnf:
-        name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-32.noarch.rpm"
+      yum_repository:
+        name: rpmfusion
+        description: "rpmfusion"
+        baseurl: "https://download1.rpmfusion.org/free/fedora/releases/$releasever/$basearch/os/"
         state: present
 
-    - name: enable copr i3-gaps repository
+    - name: enable copr repository
       become: true
-      command:
-        cmd: dnf copr enable -y nforro/i3-gaps
-        creates: "/etc/yum.repo.d/_copr:copr.fedorainfracloud.org:nforro:i3-gaps.repo"
-
-    - name: enable copr i3lock-color repository
-      become: true
-      command:
-        cmd: dnf copr enable -y odilhao/i3lock-color
-        creates: "_copr:copr.fedorainfracloud.org:odilhao:i3lock-color.repo"
+      yum_repository:
+        name: "copr:copr.fedorainfracloud.org:{{ item[0] }}:{{ item[1] }}"
+        file: "_copr:copr.fedorainfracloud.org:{{ item[0] }}:{{ item[1] }}"
+        description: "{{ item[2] }}"
+        baseurl: "{{ copr_url }}/results/{{ item[0] }}/{{ item[1] }}/fedora-$releasever-$basearch/"
+        gpgkey: "{{ copr_url }}/results/{{ item[0] }}/{{ item[1] }}/pubkey.gpg"
+        gpgcheck: yes
+        enabled: yes
+        skip_if_unavailable: yes
+      vars:
+        copr_url: https://download.copr.fedorainfracloud.org
+      with_items:
+        - [nforro, i3-gaps, i3-gaps]
+        - [odilhao, i3lock-color, i3lock-color]
 
     - name: install packages
       become: true
