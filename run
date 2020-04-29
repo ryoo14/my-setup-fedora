@@ -24,7 +24,7 @@ case $1 in
   "check" )
     ansible-playbook -i localhost, -c local install.yaml --check --ask-become-pass;;
   "install" )
-    install;;
+    ansible-playbook -i localhost, -c local install.yaml --ask-become-pass;;
   *)
     usage;;
 esac
