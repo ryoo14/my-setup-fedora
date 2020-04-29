@@ -1,0 +1,81 @@
+tasks:
+  - name: initial upgrade
+    dnf:
+      name: "*"
+      state: latest
+
+  - name: enable other repository
+    dnf:
+      name: "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm"
+      state: present
+
+  - name: enable copr i3-gaps repository
+    command:
+      cmd: dnf copr enable -y nforro/i3-gaps
+      creates: "/etc/yum.repo.d/_copr:copr.fedorainfracloud.org:nforro:i3-gaps.repo"
+
+  - name: enable copr i3lock-color repository
+    command:
+      cmd: dnf copr enable -y odilhao/i3lock-color
+      creates: "_copr:copr.fedorainfracloud.org:odilhao:i3lock-color.repo"
+
+  - name: install packages
+    dnf:
+      name:
+        - rofi
+        - xbacklight
+        - i3-gaps
+        - i3lock-color
+        - nitrogen
+        - polybar
+        - neofetch
+        - rxvt-unicode-256color
+        - pass
+        - light
+      state: latest
+  
+  - name: install other tools
+    dnf:
+      name: "https://kojipkgs.fedoraproject.org//packages/fontawesome-fonts/4.7.0/8.fc32/noarch/fontawesome-fonts-4.7.0-8.fc32.noarch.rpm"
+      state: present
+
+  - name: create work dir
+    file:
+      path: /home/ryoo/work
+      state: directory
+
+  - name: create other dir
+    file:
+      path: /home/ryoo/work/{{ item.name }}
+      state: directory
+    with_items:
+      - { name: 'src' }
+
+  - name: download cica zip
+    get_url:
+      url: https://github.com/miiton/Cica/releases/download/v5.0.1/Cica_v5.0.1_with_emoji.zip
+      dest: /home/ryoo/work/src/cica.zip
+
+  - name: unzip cica
+    become: true
+    unarchive:
+      src: /home/ryoo/work/cica/cica.zip
+      creates: /usr/share/fonts/cica
+      dest: /usr/share/fonts/cica
+
+  - name: clone fzf
+    git:
+      repo: "https://github.com/junegunn/fzf.git"
+      depth: 1
+      dest: /home/ryoo/.fzf
+
+  - name: install fzf
+    command:
+      cmd: sh /home/ryoo/.fzf/install --no-bash
+      creates: /home/ryoo/.fzf/bin/fzf
+
+  - name: clone betterlockscreen
+    git:
+      repo: "https://github.com/pavanjadhaw/betterlockscreen.git"
+      depth: 1
+      dest: /home/ryoo/src/betterlockscreen
