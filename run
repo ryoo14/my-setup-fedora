@@ -7,11 +7,11 @@ usage() {
 }
 
 check() {
-  echo "dry-run"
+  ansible-playbook -i localhost, -c local install.yaml --check --ask-become-pass
 }
 
 install() {
-  echo "install"
+  ansible-playbook -i localhost, -c local install.yaml --ask-become-pass
 }
 
 # main
@@ -22,9 +22,9 @@ fi
 
 case $1 in
   "check" )
-    ansible-playbook -i localhost, -c local install.yaml --check --ask-become-pass;;
+    check;;
   "install" )
-    ansible-playbook -i localhost, -c local install.yaml --ask-become-pass;;
+    install;;
   *)
     usage;;
 esac
