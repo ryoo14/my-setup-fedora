@@ -1,5 +1,7 @@
 #!/bin/bash
 
+SETUPDIR=$(dirname $0)
+
 # functions
 usage() {
   echo "Usage: ./run [check|install]"
@@ -7,11 +9,11 @@ usage() {
 }
 
 check() {
-  ansible-playbook -i localhost, -c local install.yaml --check --ask-become-pass
+  ansible-playbook -i localhost, -c local $SETUPDIR/install.yaml --check --ask-become-pass
 }
 
 install() {
-  ansible-playbook -i localhost, -c local install.yaml --ask-become-pass
+  ansible-playbook -i localhost, -c local $SETUPDIR/install.yaml --ask-become-pass
 }
 
 # main
