@@ -48,16 +48,18 @@
         name: "https://kojipkgs.fedoraproject.org//packages/fontawesome-fonts/4.7.0/8.fc32/noarch/fontawesome-fonts-4.7.0-8.fc32.noarch.rpm"
         state: present
 
-    - name: download cica zip
-      get_url:
-        url: https://github.com/miiton/Cica/releases/download/v5.0.1/Cica_v5.0.1_with_emoji.zip
-        dest: /home/ryoo/work/src/cica.zip
+    - name: create cica dir
+      become: true
+      file:
+        path: /usr/share/fonts/cica
+        state: directory
+        owner: root
+        group: root
 
     - name: unzip cica
       become: true
       unarchive:
-        src: /home/ryoo/work/src/cica.zip
-        creates: /usr/share/fonts/cica
+        src: https://github.com/miiton/Cica/releases/download/v5.0.1/Cica_v5.0.1_with_emoji.zip
         dest: /usr/share/fonts/cica
 
     - name: clone fzf
