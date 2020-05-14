@@ -18,8 +18,8 @@
       command:
         cmd: dnf copr enable -y {{ item }}
       loop:
-        - nforro:i3-gaps
-        - odilhao:i3lock-color
+        - nforro/i3-gaps
+        - odilhao/i3lock-color
 
     - name: install dzen2 for i3-gaps
       become: true
