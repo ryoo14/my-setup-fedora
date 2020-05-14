@@ -56,10 +56,15 @@
         owner: root
         group: root
 
+    - name: download cica zip
+      get_url:
+        url: https://github.com/miiton/Cica/releases/download/v5.0.1/Cica_v5.0.1_with_emoji.zip
+        dest: /home/ryoo/work/src/cica.zip
+
     - name: unzip cica
       become: true
       unarchive:
-        src: https://github.com/miiton/Cica/releases/download/v5.0.1/Cica_v5.0.1_with_emoji.zip
+        src: /home/ryoo/work/src/cica.zip
         dest: /usr/share/fonts/cica
 
     - name: clone fzf
