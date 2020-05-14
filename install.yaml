@@ -56,7 +56,7 @@
     - name: unzip cica
       become: true
       unarchive:
-        src: /home/ryoo/work/cica/cica.zip
+        src: /home/ryoo/work/src/cica.zip
         creates: /usr/share/fonts/cica
         dest: /usr/share/fonts/cica
 
