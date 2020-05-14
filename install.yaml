@@ -21,6 +21,11 @@
         - nforro:i3-gaps
         - odilhao:i3lock-color
 
+    - name: install dzen2 for i3-gaps
+      become: true
+      dnf:
+        name: https://download-ib01.fedoraproject.org/pub/fedora/linux/releases/31/Everything/x86_64/os/Packages/d/dzen2-0.8.5-24.20100104svn.fc31.x86_64.rpm
+
     - name: install packages
       become: true
       dnf:
