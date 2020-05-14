@@ -40,6 +40,7 @@
           - rxvt-unicode
           - pass
           - light
+          - ranger
         state: latest
     
     - name: install other tools
@@ -77,3 +78,9 @@
       command:
         cmd: sh /home/ryoo/.fzf/install --no-bash
         creates: /home/ryoo/.fzf/bin/fzf
+
+    - name: download wallpaper
+      get_url:
+        url: https://i.imgur.com/jdPFPdQ.jpg
+        dest: /home/ryoo/Pictures/brain.jpg
+
