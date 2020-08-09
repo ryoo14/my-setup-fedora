@@ -41,6 +41,7 @@
           - pass
           - light
           - ranger
+          - nemo
           - w3m-img
         state: latest
     
